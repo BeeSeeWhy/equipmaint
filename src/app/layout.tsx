@@ -7,10 +7,9 @@ import {
   NavbarContent,
   NavbarItem,
   NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
 } from "@nextui-org/navbar";
 import Link from "next/link";
+import React from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,15 +31,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar>
-          <NavbarBrand>
-            <p className="font-bold text-inherit">Equipmaint</p>
-          </NavbarBrand>
+        <Navbar onMenuOpenChange={setIsMenuOpen}>
+          <NavbarContent>
+            <NavbarMenuToggle
+              className="sm:hidden"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            />
+            <NavbarBrand>
+              <p className="font-bold text-inherit">Equipmaint</p>
+            </NavbarBrand>
+          </NavbarContent>
           <NavbarContent className="hidden sm:flex gap-4" justify="center">
             <NavbarItem>
               <Link color="foreground" href="#">
