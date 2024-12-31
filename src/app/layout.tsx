@@ -24,8 +24,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
   return (
     <html lang="en">
       <body
