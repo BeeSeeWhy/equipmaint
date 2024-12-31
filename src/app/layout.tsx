@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenuToggle,
-} from "@nextui-org/navbar";
-import Link from "next/link";
+import Navbar from "./components/navbar";
 import React from "react";
 
 const geistSans = Geist({
@@ -38,44 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar onMenuOpenChange={setIsMenuOpen}>
-          <NavbarContent>
-            <NavbarMenuToggle
-              className="sm:hidden"
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            />
-            <NavbarBrand>
-              <p className="font-bold text-inherit">Equipmaint</p>
-            </NavbarBrand>
-          </NavbarContent>
-          <NavbarContent className="hidden sm:flex gap-4" justify="center">
-            <NavbarItem>
-              <Link color="foreground" href="#">
-                Equipment Form
-              </Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Link color="foreground" href="#">
-                Maintenance Record Form
-              </Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Link color="foreground" href="#">
-                Equipment Table
-              </Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Link color="foreground" href="#">
-                Maintenance Records Table
-              </Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Link color="foreground" href="#">
-                Dashboard
-              </Link>
-            </NavbarItem>
-          </NavbarContent>
-        </Navbar>
+        <Navbar />
         {children}
       </body>
     </html>
