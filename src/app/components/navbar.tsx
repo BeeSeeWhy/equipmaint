@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const Navbar: React.FC = () => {
   return (
-    <nav style={styles.navbar}>
-      <ul style={styles.navList}>
+    <nav className="p-4 bg-gray-800 border-r-2 border-white">
+      <ul className="flex gap-4 list-none text-xl text-justify">
         <li>
           <Link href="/" legacyBehavior>
             <a style={styles.link}>Home</a>
