@@ -4,14 +4,14 @@ import Link from "next/link";
 const Navbar: React.FC = () => {
   return (
     <nav className="p-4 bg-gray-800 border-r-2 border-white">
-      <ul className="flex gap-4 list-none text-xl text-justify">
+      <ul className="flex gap-4 list-none text-xl">
         <li>
           <Link href="/" legacyBehavior>
             <a style={styles.link}>Home</a>
           </Link>
         </li>
         <li>
-          <Link href="/equipment" legacyBehavior>
+          <Link href="/equipment-form" legacyBehavior>
             <a style={styles.link}>Equipment Form</a>
           </Link>
         </li>
