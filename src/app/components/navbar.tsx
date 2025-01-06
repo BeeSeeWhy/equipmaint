@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 const Navbar: React.FC = () => {
-  let [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   function handleMenuToggle() {
     setIsMenuOpen(!isMenuOpen);
