@@ -24,6 +24,7 @@ const SiteForm = () => {
   let handleDepartmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedDepartment = e.target.value as unknown as Equipment[];
     setDepartment(selectedDepartment);
+    console.log(`Selected department: ${selectedDepartment}`);
   };
 
   function handleStatusChange(
@@ -92,7 +93,7 @@ const SiteForm = () => {
           </select>
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-1/3 mx-auto"
           >
             Submit
           </button>
