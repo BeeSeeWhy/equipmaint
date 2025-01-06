@@ -19,7 +19,7 @@ const statii = [
 ];
 
 const SiteForm = () => {
-  let [department, setDepartment] = React.useState<Equipment[]>([]);
+  const [department, setDepartment] = React.useState<Equipment[]>([]);
 
   let handleDepartmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedDepartment = e.target.value as unknown as Equipment[];
