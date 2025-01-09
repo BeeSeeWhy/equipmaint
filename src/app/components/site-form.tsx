@@ -1,93 +1,86 @@
 "use client";
-
-import Form from "next/form";
-import { Equipment } from "@/types/equipment";
 import React from "react";
+import { Equipment } from "@/types/equipment";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
 
-const departments = [
-  { value: "Machining", label: "Machining" },
-  { value: "Assembly", label: "Assembly" },
-  { value: "Packaging", label: "Packaging" },
-  { value: "Shipping", label: "Shipping" },
-];
+const DeptEnum = ["Machining", "Assembly", "Packaging", "Shipping"] as const;
+const departments = z.enum(DeptEnum);
 
-const statii = [
-  { value: "Operational", label: "Operational" },
-  { value: "Down", label: "Down" },
-  { value: "Maintenance", label: "Maintenance" },
-  { value: "Retired", label: "Retired" },
-];
+const StatusEnum = ["Operational", "Down", "Maintenance", "Retired"] as const;
+const statii = z.enum(StatusEnum);
 
-const SiteForm = () => {
-  const [department, setDepartment] = React.useState<Equipment[]>([]);
+const EquipmentSchema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters long"),
+  location: z.string(),
+  department: z.enum(DeptEnum, {
+    errorMap: () => ({ message: "Please select a department" }),
+  }),
+  model: z.string(),
+  serial: z.custom<string>((val) => {
+    return typeof val === "string" ? /^[a-z0-9]+$/i.test(val) : false;
+  }),
+  installDate: z.date(),
+  status: z.string(),
+});
 
-  function handleDepartmentChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const selectedDepartment = e.target.value as unknown as Equipment[];
-    setDepartment(selectedDepartment);
-    console.log(`Selected department: ${selectedDepartment}`);
-  }
+type EquipmentData = z.infer<typeof EquipmentSchema>;
 
-  function handleStatusChange(
-    event: React.ChangeEvent<HTMLSelectElement>
-  ): void {
-    const selectedStatus = event.target.value;
-    console.log(`Selected status: ${selectedStatus}`);
-  }
+const SiteForm: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<EquipmentData>({
+    resolver: zodResolver(EquipmentSchema),
+  });
+
+  const onSubmit = (data: EquipmentData) => {
+    console.log("Equipment Data", data);
+  };
+
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg w-1/3">
-      <Form
+      <form
         className="bg-slate-300 p-4 rounded-lg"
         action="/api/form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          const form = event.target as HTMLFormElement;
-          const formData = new FormData(form);
-          fetch(form.action, {
-            method: form.method,
-            body: formData,
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              console.log(data);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        }}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col space-y-4">
-          <label htmlFor="name">Name</label>
-          <input id="name" name="name" type="text" required />
+          <label htmlFor="userName">Name</label>
+          <input id="userName" type="text" {...register("name")} required />
           <label htmlFor="location">Location</label>
-          <input id="location" name="location" type="text" required />
+          <input id="location" type="text" {...register("location")} required />
           <label htmlFor="department">Department</label>
-          <select
-            id="department"
-            name="department"
-            onChange={handleDepartmentChange}
-          >
+          <select id="department" {...register("department")}>
             <option value="⬇️ Select a Deparment ⬇️">
               {" "}
               -- Select a Department --
             </option>
-            {departments.map((department: { value: string; label: string }) => (
-              <option key={department.value} value={department.value}>
-                {department.label}
+            {DeptEnum.map((department) => (
+              <option key={department} value={department}>
+                {department}
               </option>
             ))}
           </select>
           <label htmlFor="model">Model</label>
-          <input id="model" name="model" type="text" required />
+          <input id="model" type="text" {...register("model")} required />
           <label htmlFor="serial">Serial Number</label>
-          <input id="serial" name="serial" type="text" required />
+          <input id="serial" type="text" {...register("serial")} required />
           <label htmlFor="installDate">Install Date</label>
-          <input id="installDate" name="installDate" type="date" required />
+          <input
+            id="installDate"
+            type="date"
+            {...register("installDate")}
+            required
+          />
           <label htmlFor="status">Status</label>
-          <select id="status" name="status" onChange={handleStatusChange}>
+          <select id="status" {...register("status")}>
             <option value="⬇️ Select Status ⬇️"> -- Select Status --</option>
-            {statii.map((status: { value: string; label: string }) => (
-              <option key={status.value} value={status.value}>
-                {status.label}
+            {StatusEnum.map((status) => (
+              <option key={status} value={status}>
+                {status}
               </option>
             ))}
           </select>
@@ -98,7 +91,7 @@ const SiteForm = () => {
             Submit
           </button>
         </div>
-      </Form>
+      </form>
     </div>
   );
 };

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.10.0",
     "@nextui-org/navbar": "^2.2.7",
     "@nextui-org/react": "^2.6.10",
     "@nextui-org/system": "^2.4.5",
