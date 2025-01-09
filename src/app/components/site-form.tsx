@@ -50,6 +50,7 @@ const SiteForm: React.FC = () => {
         <div className="flex flex-col space-y-4">
           <label htmlFor="userName">Name</label>
           <input id="userName" type="text" {...register("name")} required />
+          {errors.name && <p>{errors.name.message}</p>}
           <label htmlFor="location">Location</label>
           <input id="location" type="text" {...register("location")} required />
           <label htmlFor="department">Department</label>
@@ -63,6 +64,7 @@ const SiteForm: React.FC = () => {
                 {department}
               </option>
             ))}
+            {errors.department && <p>{errors.department.message}</p>}
           </select>
           <label htmlFor="model">Model</label>
           <input id="model" type="text" {...register("model")} required />

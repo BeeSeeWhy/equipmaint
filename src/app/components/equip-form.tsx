@@ -76,26 +76,34 @@ const MaintenanceForm = () => {
       >
         <div className="flex flex-col space-y-4">
           <label htmlFor="equipment">Equipment</label>
-          <select id="equipment" {...register("equipment")} required />
-          <option value="⬇️ Select a Equipment ⬇️">
-            {" "}
-            -- Select a Equipment --
-          </option>
-          {EquipEnum.map((equipment) => (
-            <option key={equipment} value={equipment}>
-              {equipment}
+          <select id="equipment" {...register("equipment")}>
+            <option value="⬇️ Select a Equipment ⬇️">
+              {" "}
+              -- Select a Equipment --
             </option>
-          ))}
+            {EquipEnum.map((equipment) => (
+              <option key={equipment} value={equipment}>
+                {equipment}
+              </option>
+            ))}
+            {errors.equipment && <p>{errors.equipment.message}</p>}
+          </select>
           <label htmlFor="date">Date</label>
           <input id="date" type="date" {...register("date")} required />
+
           <label htmlFor="type">Type of Repair</label>
-          <select id="type" {...register("type")} />
-          <option value="⬇️ Select Type ⬇️"> -- Select Type --</option>
-          {TypeEnum.map((repairType) => (
-            <option key={repairType} value={repairType}>
-              {repairType}
+          <select id="type" {...register("type")}>
+            <option value="⬇️ Select Type ⬇️">
+              {" "}
+              -- Select Type of Repair --
             </option>
-          ))}
+            {TypeEnum.map((repairType) => (
+              <option key={repairType} value={repairType}>
+                {repairType}
+              </option>
+            ))}
+          </select>
+          {errors.type && <p>{errors.type.message}</p>}
           <label htmlFor="technician">Technician</label>
           <input
             id="technician"
@@ -103,34 +111,44 @@ const MaintenanceForm = () => {
             {...register("technician")}
             required
           />
+          {errors.technician && <p>{errors.technician.message}</p>}
           <label htmlFor="hours">Hours Spent</label>
           <input id="hours" type="number" {...register("hours")} required />
+          {errors.hours && <p>{errors.hours.message}</p>}
           <label htmlFor="description">Repair Description</label>
           <textarea
             id="description"
             {...register("description")}
-            cols={50}
+            cols={35}
             rows={4}
             required
           />
+          {errors.description && <p>{errors.description.message}</p>}
           <label htmlFor="parts">Parts Replaced</label>
           <input id="parts" type="text" {...register("partsReplaced")} />
+
           <label htmlFor="priority">Priority</label>
-          <select id="priority" {...register("priority")} required />
-          <option value="⬇️ Select Priority ⬇️"> -- Select Priority --</option>
-          {PriorityEnum.map((priority) => (
-            <option key={priority} value={priority}>
-              {priority}
+          <select id="priority" {...register("priority")} required>
+            <option value="⬇️ Select Priority ⬇️">
+              {" "}
+              -- Select Priority --
             </option>
-          ))}
+            {PriorityEnum.map((priority) => (
+              <option key={priority} value={priority}>
+                {priority}
+              </option>
+            ))}
+          </select>
           <label htmlFor="completion">Completion Status</label>
-          <select id="completion" {...register("completion")} />
-          <option value="⬇️ Select Status ⬇️"> -- Select Status --</option>
-          {CompletionEnum.map((status) => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
+          <select id="completion" {...register("completion")}>
+            <option value="⬇️ Select Status ⬇️"> -- Select Status --</option>
+            {CompletionEnum.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
+          </select>
+          {errors.completion && <p>{errors.completion.message}</p>}
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-1/3 mx-auto"
