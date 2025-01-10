@@ -15,7 +15,7 @@ const EquipEnum = [
   "Utility Vehicle",
   "Other",
 ] as const;
-const equipment = z.enum(EquipEnum);
+//const equipment = z.enum(EquipEnum);
 
 const TypeEnum = ["Preventative", "Repair", "Emergency"] as const;
 //const types = z.enum(TypeEnum);

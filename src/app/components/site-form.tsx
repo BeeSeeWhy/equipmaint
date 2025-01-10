@@ -1,15 +1,17 @@
 "use client";
 import React from "react";
-import { Equipment } from "@/types/equipment";
+//import { Equipment } from "@/types/equipment";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 
 const DeptEnum = ["Machining", "Assembly", "Packaging", "Shipping"] as const;
 const departments = z.enum(DeptEnum);
+console.log(departments);
 
 const StatusEnum = ["Operational", "Down", "Maintenance", "Retired"] as const;
 const statii = z.enum(StatusEnum);
+console.log(statii);
 
 const EquipmentSchema = z.object({
   name: z.string().min(3, " Name must be at least 3 characters long"),
