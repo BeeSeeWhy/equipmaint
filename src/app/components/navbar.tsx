@@ -55,14 +55,14 @@ const Navbar: React.FC = () => {
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 <Link
-                  href="/equipment"
+                  href="/equipment-form"
                   className="rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                   aria-current="page"
                 >
                   Equipment Form
                 </Link>
                 <Link
-                  href="/maintenance"
+                  href="/maintenance-form"
                   className="rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                 >
                   Maintenance Record Form
