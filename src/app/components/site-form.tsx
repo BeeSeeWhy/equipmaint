@@ -5,10 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 const DeptEnum = ["Machining", "Assembly", "Packaging", "Shipping"] as const;
-const departments = z.enum(DeptEnum);
-
 const StatusEnum = ["Operational", "Down", "Maintenance", "Retired"] as const;
-const statii = z.enum(StatusEnum);
 
 const EquipmentSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long"),
@@ -24,7 +21,9 @@ const EquipmentSchema = z.object({
     .string()
     .transform((val) => new Date(val))
     .refine((date) => date < new Date(), "Date must be yesterday or earlier"),
-  status: z.string(),
+  status: z.enum(StatusEnum, {
+    errorMap: () => ({ message: "Please select a status" }),
+  }),
 });
 
 type EquipmentData = z.infer<typeof EquipmentSchema>;

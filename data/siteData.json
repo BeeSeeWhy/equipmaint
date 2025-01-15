@@ -1,9 +1,9 @@
 {
-  "name": "Duane",
-  "location": "Oakland",
-  "department": "Packaging",
-  "model": "Packager5000",
-  "serial": "7734C",
-  "installDate": "2025-01-12T00:00:00.000Z",
+  "name": "Harvey",
+  "location": "San Bruno",
+  "department": "Shipping",
+  "model": "Shipper Shipper 1100",
+  "serial": "94114",
+  "installDate": "2025-01-11T00:00:00.000Z",
   "status": "Operational"
 }
