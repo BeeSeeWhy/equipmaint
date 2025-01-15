@@ -1,0 +1,14 @@
+{
+  "equipment": "Backhoe",
+  "date": "2025-01-13T00:00:00.000Z",
+  "type": "Preventative",
+  "technician": "DJ",
+  "hours": 3,
+  "description": "replace air filter",
+  "partsReplaced": [
+    "air filter",
+    ""
+  ],
+  "priority": "Medium",
+  "completion": "Complete"
+}
