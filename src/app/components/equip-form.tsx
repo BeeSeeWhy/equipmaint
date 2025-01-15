@@ -2,7 +2,7 @@
 
 import React from "react";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const EquipEnum = [
@@ -15,16 +15,9 @@ const EquipEnum = [
   "Utility Vehicle",
   "Other",
 ] as const;
-//const equipment = z.enum(EquipEnum);
-
 const TypeEnum = ["Preventative", "Repair", "Emergency"] as const;
-//const types = z.enum(TypeEnum);
-
 const PriorityEnum = ["Low", "Medium", "High"] as const;
-//const priority = z.enum(PriorityEnum);
-
 const CompletionEnum = ["Complete", "Incomplete", "Pending Parts"] as const;
-//const completion = z.enum(CompletionEnum);
 
 const MaintenanceSchema = z.object({
   equipment: z.enum(EquipEnum, {
@@ -54,19 +47,40 @@ const MaintenanceSchema = z.object({
   }),
 });
 
-type MaintenanceData = z.infer<typeof MaintenanceSchema>;
+type MaintenanceData = z.infer<typeof MaintenanceSchema> & {
+  partsReplaced?: string[];
+};
 
 const MaintenanceForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<MaintenanceData>({
     resolver: zodResolver(MaintenanceSchema),
   });
 
-  const onSubmit = (data: MaintenanceData) => {
-    console.log("Equipment Data", data);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "partsReplaced",
+  });
+
+  const onSubmit = async (data: MaintenanceData) => {
+    console.log("Equip Data", data);
+    const response = await fetch("/api/saveFormData?formType=equip", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      console.log("Data saved successfully");
+    } else {
+      console.error("Failed to save data");
+    }
   };
 
   return (
@@ -169,8 +183,34 @@ const MaintenanceForm = () => {
 
           {/* Parts Replaced */}
           <label htmlFor="parts">Parts Replaced</label>
-          <input id="parts" type="text" {...register("partsReplaced")} />
-
+          {fields.map((field, index) => (
+            <div key={field.id} className="flex space-x-2">
+              <input
+                id="parts"
+                type="text"
+                {...register(`partsReplaced.${index}` as const)}
+              />
+              <button
+                type="button"
+                onClick={() => remove(index)}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => append("")}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Add Part
+          </button>
+          {errors.partsReplaced && (
+            <span className="text-red-500 text-sm">
+              {errors.partsReplaced.message}
+            </span>
+          )}
           {/* Priority */}
           <label htmlFor="priority">Priority</label>
           <select id="priority" {...register("priority")} required>

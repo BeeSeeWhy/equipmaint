@@ -1,31 +1,29 @@
 "use client";
 import React from "react";
-//import { Equipment } from "@/types/equipment";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 const DeptEnum = ["Machining", "Assembly", "Packaging", "Shipping"] as const;
 const departments = z.enum(DeptEnum);
-console.log(departments);
 
 const StatusEnum = ["Operational", "Down", "Maintenance", "Retired"] as const;
 const statii = z.enum(StatusEnum);
-console.log(statii);
 
 const EquipmentSchema = z.object({
-  name: z.string().min(3, " Name must be at least 3 characters long"),
+  name: z.string().min(3, "Name must be at least 3 characters long"),
   location: z.string(),
   department: z.enum(DeptEnum, {
-    errorMap: () => ({ message: " Please select a department" }),
+    errorMap: () => ({ message: "Please select a department" }),
   }),
   model: z.string(),
   serial: z.custom<string>((val) => {
     return typeof val === "string" ? /^[a-z0-9]+$/i.test(val) : false;
-  }, " Serial must be alphanumeric"),
-  installDate: z.coerce
-    .date()
-    .max(new Date(Date.now() - 86400000), " Date must be yesterday or earlier"),
+  }, "Serial must be alphanumeric"),
+  installDate: z
+    .string()
+    .transform((val) => new Date(val))
+    .refine((date) => date < new Date(), "Date must be yesterday or earlier"),
   status: z.string(),
 });
 
@@ -40,15 +38,27 @@ const SiteForm: React.FC = () => {
     resolver: zodResolver(EquipmentSchema),
   });
 
-  const onSubmit = (data: EquipmentData) => {
+  const onSubmit = async (data: EquipmentData) => {
     console.log("Equipment Data", data);
+    const response = await fetch("/api/saveFormData?formType=site", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      console.log("Data saved successfully");
+    } else {
+      console.error("Failed to save data");
+    }
   };
 
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg w-1/3">
       <form
         className="bg-slate-300 p-4 rounded-lg"
-        action="/api/form"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col space-y-4">
@@ -72,10 +82,7 @@ const SiteForm: React.FC = () => {
             )}
           </div>
           <select id="department" {...register("department")}>
-            <option value="⬇️ Select a Deparment ⬇️">
-              {" "}
-              -- Select a Department --
-            </option>
+            <option value=""> -- Select a Department -- </option>
             {DeptEnum.map((department) => (
               <option key={department} value={department}>
                 {department}
@@ -93,14 +100,7 @@ const SiteForm: React.FC = () => {
             )}
           </div>
           <input id="serial" type="text" {...register("serial")} required />
-          <div>
-            <label htmlFor="installDate">Install Date</label>
-            {errors?.installDate && (
-              <span className="text-red-500 text-sm">
-                {errors.installDate.message}
-              </span>
-            )}
-          </div>
+          <label htmlFor="installDate">Install Date</label>
           <input
             id="installDate"
             type="date"
@@ -109,7 +109,7 @@ const SiteForm: React.FC = () => {
           />
           <label htmlFor="status">Status</label>
           <select id="status" {...register("status")}>
-            <option value="⬇️ Select Status ⬇️"> -- Select Status --</option>
+            <option value=""> -- Select Status -- </option>
             {StatusEnum.map((status) => (
               <option key={status} value={status}>
                 {status}
