@@ -1,4 +1,4 @@
-import MaintenanceForm from "../components/equip-form";
+import MaintenanceForm from "../components/maint-form";
 
 const GetStartedPage = () => {
   return (

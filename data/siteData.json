@@ -1,9 +1,9 @@
 {
-  "name": "Harvey",
-  "location": "San Bruno",
+  "name": "Postage Marker",
+  "location": "San Francisco",
   "department": "Shipping",
-  "model": "Shipper Shipper 1100",
-  "serial": "94114",
-  "installDate": "2025-01-11T00:00:00.000Z",
+  "model": "Postage 500",
+  "serial": "666Stamp",
+  "installDate": "2025-01-16T00:00:00.000Z",
   "status": "Operational"
 }
