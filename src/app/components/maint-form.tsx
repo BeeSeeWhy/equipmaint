@@ -156,16 +156,21 @@ const MaintenanceForm: React.FC = () => {
             required
           />
 
-          {/* Hours */}
+          {/* Hours Spent*/}
           <div>
             <label htmlFor="hours">Hours Spent</label>
-            {errors?.hours && (
+            {errors?.hoursSpent && (
               <span className="text-red-500 text-sm">
-                {errors.hours.message}
+                {errors.hoursSpent.message}
               </span>
             )}
           </div>
-          <input id="hours" type="number" {...register("hours")} required />
+          <input
+            id="hours"
+            type="number"
+            {...register("hoursSpent")}
+            required
+          />
 
           {/* Description */}
           <div>
@@ -230,13 +235,13 @@ const MaintenanceForm: React.FC = () => {
           {/* Completion */}
           <div>
             <label htmlFor="completion">Completion Status</label>
-            {errors?.completion && (
+            {errors?.completionStatus && (
               <span className="text-red-500 text-sm">
-                {errors.completion.message}
+                {errors.completionStatus.message}
               </span>
             )}
           </div>
-          <select id="completion" {...register("completion")}>
+          <select id="completionStatus" {...register("completionStatus")}>
             <option value=""> -- Select Status -- </option>
             {CompletionEnum.map((status) => (
               <option key={status} value={status}>
