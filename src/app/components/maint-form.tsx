@@ -68,7 +68,7 @@ const MaintenanceForm: React.FC = () => {
   const onSubmit = async (data: MaintenanceData) => {
     // Convert partsReplaced to an array of strings
     const partsReplaced = data.partsReplaced?.map((item) => item.part) || [];
-    const submissionData = { ...data, partsReplaced };
+    //const submissionData = { ...data, partsReplaced };
 
     console.log("Maint Data", data);
     const response = await fetch("/api/saveFormData?formType=maintenance", {
