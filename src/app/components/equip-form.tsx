@@ -96,13 +96,18 @@ const EquipForm: React.FC = () => {
           <input id="model" type="text" {...register("model")} required />
           <div>
             <label htmlFor="serial">Serial Number</label>
-            {errors?.serial && (
+            {errors?.serialNumber && (
               <span className="text-red-500 text-sm">
-                {errors.serial.message}
+                {errors.serialNumber.message}
               </span>
             )}
           </div>
-          <input id="serial" type="text" {...register("serial")} required />
+          <input
+            id="serial"
+            type="text"
+            {...register("serialNumber")}
+            required
+          />
           <label htmlFor="installDate">Install Date</label>
           <input
             id="installDate"
