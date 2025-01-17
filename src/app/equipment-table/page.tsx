@@ -118,7 +118,7 @@ const EquipTable: React.FC = () => {
           ))}
         </thead>
         <tbody className="border-2 border-solid border-gray-300">
-          {table.getCoreRowModel().rows.map((row) => (
+          {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
               className={
