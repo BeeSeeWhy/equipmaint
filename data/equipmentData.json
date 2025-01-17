@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Labeler",
+    "location": "San Francisco",
+    "department": "Packaging",
+    "model": "Label1999",
+    "serial": "PR1nc3",
+    "installDate": "2025-01-04T00:00:00.000Z",
+    "status": "Operational"
+  },
+  {
+    "name": "Postage Marker",
+    "location": "Oakland",
+    "department": "Shipping",
+    "model": "Postage 500",
+    "serial": "45A564",
+    "installDate": "2025-01-01T00:00:00.000Z",
+    "status": "Operational"
+  }
+]

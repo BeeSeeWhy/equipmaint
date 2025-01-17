@@ -1,209 +1,131 @@
 "use client";
-
 import React from "react";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-const EquipEnum = [
-  "Backhoe",
-  "Excavator",
-  "Forklift",
-  "Skid Steer",
-  "Tractor",
-  "Truck",
-  "Utility Vehicle",
-  "Other",
-] as const;
-//const equipment = z.enum(EquipEnum);
+const DeptEnum = ["Machining", "Assembly", "Packaging", "Shipping"] as const;
+const StatusEnum = ["Operational", "Down", "Maintenance", "Retired"] as const;
 
-const TypeEnum = ["Preventative", "Repair", "Emergency"] as const;
-//const types = z.enum(TypeEnum);
-
-const PriorityEnum = ["Low", "Medium", "High"] as const;
-//const priority = z.enum(PriorityEnum);
-
-const CompletionEnum = ["Complete", "Incomplete", "Pending Parts"] as const;
-//const completion = z.enum(CompletionEnum);
-
-const MaintenanceSchema = z.object({
-  equipment: z.enum(EquipEnum, {
-    errorMap: () => ({ message: " Please select equipment" }),
+const EquipmentSchema = z.object({
+  name: z.string().min(3, " Name must be at least 3 characters long"),
+  location: z.string(),
+  department: z.enum(DeptEnum, {
+    errorMap: () => ({ message: " Please select a department" }),
   }),
-  date: z.coerce.date().max(new Date(), " Date must be today or earlier"),
-  type: z
-    .enum(TypeEnum, {
-      errorMap: () => ({ message: " Please select a maintenance type" }),
-    })
-    .optional(),
-  technician: z.string().min(2, " Tech must be at least 2 characters long"),
-  hours: z.coerce
-    .number()
-    .positive()
-    .min(1, " Hours must be at least 1")
-    .max(24, " Hours must be 24 or less"),
-  description: z
+  model: z.string(),
+  serial: z.custom<string>((val) => {
+    return typeof val === "string" ? /^[a-z0-9]+$/i.test(val) : false;
+  }, " Serial must be alphanumeric"),
+  installDate: z
     .string()
-    .min(10, " Description must be at least 10 characters long"),
-  partsReplaced: z.array(z.string()).optional(),
-  priority: z.enum(PriorityEnum, {
-    errorMap: () => ({ message: " Please select a priority" }),
-  }),
-  completion: z.enum(CompletionEnum, {
-    errorMap: () => ({ message: " Please select a completion status" }),
+    .transform((val) => new Date(val))
+    .refine((date) => date < new Date(), " Date must be yesterday or earlier"),
+  status: z.enum(StatusEnum, {
+    errorMap: () => ({ message: " Please select a status" }),
   }),
 });
 
-type MaintenanceData = z.infer<typeof MaintenanceSchema>;
+type EquipmentData = z.infer<typeof EquipmentSchema>;
 
-const MaintenanceForm = () => {
+const EquipForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<MaintenanceData>({
-    resolver: zodResolver(MaintenanceSchema),
+    reset,
+  } = useForm<EquipmentData>({
+    resolver: zodResolver(EquipmentSchema),
   });
 
-  const onSubmit = (data: MaintenanceData) => {
-    console.log("Equipment Data", data);
+  const onSubmit = async (data: EquipmentData) => {
+    console.log("Equip Data", data);
+    const response = await fetch("/api/saveFormData?formType=equipment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    console.log("here");
+
+    if (response.ok) {
+      console.log("Data saved successfully");
+      alert("Equipment Record Created. Thank you!");
+      reset();
+    } else {
+      console.error("Failed to save data");
+    }
   };
 
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg w-1/3">
       <form
         className="bg-slate-300 p-4 rounded-lg"
-        action="/api/form"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col space-y-4">
-          {/* Equipment */}
           <div>
-            <label htmlFor="equipment">Equipment</label>
-            {errors?.equipment && (
+            <label htmlFor="name">Name</label>
+            {errors?.name && (
               <span className="text-red-500 text-sm">
-                {errors.equipment.message}
+                {errors.name.message}
               </span>
             )}
           </div>
-          <select id="equipment" {...register("equipment")}>
-            <option value="⬇️ Select a Equipment ⬇️">
-              {" "}
-              -- Select a Equipment --
-            </option>
-            {EquipEnum.map((equipment) => (
-              <option key={equipment} value={equipment}>
-                {equipment}
+          <input id="name" type="text" {...register("name")} required />
+          <label htmlFor="location">Location</label>
+          <input id="location" type="text" {...register("location")} required />
+          <div>
+            <label htmlFor="department">Department</label>
+            {errors?.department && (
+              <span className="text-red-500 text-sm">
+                {errors.department.message}
+              </span>
+            )}
+          </div>
+          <select id="department" {...register("department")}>
+            <option value=""> -- Select a Department -- </option>
+            {DeptEnum.map((department) => (
+              <option key={department} value={department}>
+                {department}
               </option>
             ))}
           </select>
-
-          {/* Date */}
+          <label htmlFor="model">Model</label>
+          <input id="model" type="text" {...register("model")} required />
           <div>
-            <label htmlFor="date">Date</label>
-            {errors?.date && (
+            <label htmlFor="serial">Serial Number</label>
+            {errors?.serial && (
               <span className="text-red-500 text-sm">
-                {errors.date.message}
+                {errors.serial.message}
               </span>
             )}
           </div>
-          <input id="date" type="date" {...register("date")} required />
-
-          {/* Type */}
-          <label htmlFor="type">Type of Repair</label>
-          <select id="type" {...register("type")}>
-            <option value="⬇️ Select Type ⬇️">
-              {" "}
-              -- Select Type of Repair --
-            </option>
-            {TypeEnum.map((repairType) => (
-              <option key={repairType} value={repairType}>
-                {repairType}
-              </option>
-            ))}
-          </select>
-
-          {/* Technician */}
-          <div>
-            <label htmlFor="technician">Technician</label>
-            {errors?.technician && (
-              <span className="text-red-500 text-sm">
-                {errors.technician.message}
-              </span>
-            )}
-          </div>
+          <input id="serial" type="text" {...register("serial")} required />
+          <label htmlFor="installDate">Install Date</label>
           <input
-            id="technician"
-            type="text"
-            {...register("technician")}
+            id="installDate"
+            type="date"
+            {...register("installDate")}
             required
           />
-
-          {/* Hours */}
           <div>
-            <label htmlFor="hours">Hours Spent</label>
-            {errors?.hours && (
+            <label htmlFor="status">Status</label>
+            {errors?.status && (
               <span className="text-red-500 text-sm">
-                {errors.hours.message}
+                {errors.status.message}
               </span>
             )}
           </div>
-          <input id="hours" type="number" {...register("hours")} required />
-
-          {/* Description */}
-          <div>
-            <label htmlFor="description">Repair Description</label>
-            {errors?.description && (
-              <span className="text-red-500 text-sm">
-                {errors.description.message}
-              </span>
-            )}
-          </div>
-          <textarea
-            id="description"
-            {...register("description")}
-            cols={35}
-            rows={4}
-            required
-          />
-
-          {/* Parts Replaced */}
-          <label htmlFor="parts">Parts Replaced</label>
-          <input id="parts" type="text" {...register("partsReplaced")} />
-
-          {/* Priority */}
-          <label htmlFor="priority">Priority</label>
-          <select id="priority" {...register("priority")} required>
-            <option value="⬇️ Select Priority ⬇️">
-              {" "}
-              -- Select Priority --
-            </option>
-            {PriorityEnum.map((priority) => (
-              <option key={priority} value={priority}>
-                {priority}
-              </option>
-            ))}
-          </select>
-
-          {/* Completion */}
-          <div>
-            <label htmlFor="completion">Completion Status</label>
-            {errors?.completion && (
-              <span className="text-red-500 text-sm">
-                {errors.completion.message}
-              </span>
-            )}
-          </div>
-          <select id="completion" {...register("completion")}>
-            <option value="⬇️ Select Status ⬇️"> -- Select Status --</option>
-            {CompletionEnum.map((status) => (
+          <select id="status" {...register("status")}>
+            <option value=""> -- Select Status -- </option>
+            {StatusEnum.map((status) => (
               <option key={status} value={status}>
                 {status}
               </option>
             ))}
           </select>
-
-          {/* Submit Button */}
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-1/3 mx-auto"
@@ -216,4 +138,4 @@ const MaintenanceForm = () => {
   );
 };
 
-export default MaintenanceForm;
+export default EquipForm;

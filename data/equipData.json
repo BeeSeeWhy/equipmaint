@@ -1,0 +1,15 @@
+{
+  "equipment": "Backhoe",
+  "date": "2025-01-08T00:00:00.000Z",
+  "type": "Repair",
+  "technician": "Rosie The Riveter ",
+  "hours": 3,
+  "description": "broken radiator hose ",
+  "partsReplaced": [
+    {
+      "part": "radiator hose"
+    }
+  ],
+  "priority": "High",
+  "completion": "Complete"
+}
