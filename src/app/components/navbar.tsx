@@ -68,7 +68,7 @@ const Navbar: React.FC = () => {
                   Maintenance Record Form
                 </Link>
                 <Link
-                  href="/equiptable"
+                  href="/equipment-table"
                   className="rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                 >
                   Equipment Table

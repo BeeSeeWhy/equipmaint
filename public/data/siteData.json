@@ -1,9 +1,0 @@
-{
-  "name": "Postage Marker",
-  "location": "San Francisco",
-  "department": "Shipping",
-  "model": "Postage 500",
-  "serial": "666Stamp",
-  "installDate": "2025-01-16T00:00:00.000Z",
-  "status": "Operational"
-}
