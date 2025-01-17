@@ -1,20 +1,38 @@
 [
   {
-    "name": "Labeler",
+    "name": "Postage Marker",
     "location": "San Francisco",
-    "department": "Packaging",
-    "model": "Label1999",
-    "serialNumber": "PR1nc3",
-    "installDate": "2025-01-04T00:00:00.000Z",
+    "department": "Shipping",
+    "model": "Postage 500",
+    "serialNumber": "666STAMP",
+    "installDate": "2025-01-01T00:00:00.000Z",
     "status": "Operational"
   },
   {
-    "name": "Postage Marker",
-    "location": "Oakland",
-    "department": "Shipping",
-    "model": "Postage 500",
-    "serialNumber": "45A564",
-    "installDate": "2025-01-01T00:00:00.000Z",
-    "status": "Operational"
+    "name": "Packager",
+    "location": "San Francisco",
+    "department": "Packaging",
+    "model": "Packager5000",
+    "serialNumber": "4932PACK",
+    "installDate": "2025-01-06T00:00:00.000Z",
+    "status": "Maintenance"
+  },
+  {
+    "name": "Drill",
+    "location": "San Bruno",
+    "department": "Machining",
+    "model": "Drill 6900",
+    "serialNumber": "01110011011100000110010101101100011011000010000001110011011000110111001",
+    "installDate": "2025-01-08T00:00:00.000Z",
+    "status": "Down"
+  },
+  {
+    "name": "Robot Arm Assembler",
+    "location": "San Francisco",
+    "department": "Assembly",
+    "model": "Assembler2000",
+    "serialNumber": "23857A",
+    "installDate": "2025-01-08T00:00:00.000Z",
+    "status": "Retired"
   }
 ]

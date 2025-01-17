@@ -1,16 +1,18 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
+  getSortedRowModel,
+  getGroupedRowModel,
+  SortingState,
+  GroupingState,
 } from "@tanstack/react-table";
-//import { MaintenanceRecord } from "@/types/equipment";
+//import { MaintenanceRecord } from "@/types/maintenance";
 import { fetchData } from "../utils/fetchData";
-
-const columnHelper = createColumnHelper<MaintenanceRecord>();
 
 interface MaintenanceRecord {
   equipment: string;
@@ -24,6 +26,8 @@ interface MaintenanceRecord {
   completionStatus: string;
 }
 
+const columnHelper = createColumnHelper<MaintenanceRecord>();
+
 const columns = [
   columnHelper.accessor("equipment", {
     header: () => "Equipment",
@@ -32,7 +36,7 @@ const columns = [
   }),
   columnHelper.accessor("date", {
     header: () => "Date",
-    cell: (info) => info.getValue(),
+    cell: (info) => new Date(info.getValue()).toLocaleDateString(),
     footer: () => "Date",
   }),
   columnHelper.accessor("type", {
@@ -73,98 +77,139 @@ const columns = [
 ];
 
 const MaintTable: React.FC = () => {
-  const [maintenanceOptions, setMaintenanceOptions] = React.useState<
+  const [maintenanceOptions, setMaintenanceOptions] = useState<
     MaintenanceRecord[]
   >([]);
-  const [data, setData] = React.useState(() => [...maintenanceOptions]);
+  const [data, setData] = useState<MaintenanceRecord[]>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [grouping, setGrouping] = useState<GroupingState>([]);
   const rerender = React.useReducer(() => ({}), {})[1];
+  const isMounted = useRef(false);
 
   useEffect(() => {
-    const loadEquipmentData = async () => {
+    isMounted.current = true;
+
+    const loadMaintenanceData = async () => {
       try {
         const data = await fetchData("maintenance");
-        setMaintenanceOptions(data);
+        if (isMounted.current) {
+          setMaintenanceOptions(data);
+        }
       } catch (error) {
-        console.error("Failed to load equipment data", error);
+        console.error("Failed to load maintenance data", error);
       }
     };
 
-    loadEquipmentData();
+    loadMaintenanceData();
+
+    return () => {
+      isMounted.current = false;
+    };
   }, []);
 
   useEffect(() => {
-    setData(maintenanceOptions);
+    if (isMounted.current) {
+      setData(maintenanceOptions);
+    }
   }, [maintenanceOptions]);
-
-  console.log("Maintenance Options", maintenanceOptions);
-  console.log("Data", data);
 
   const table = useReactTable<MaintenanceRecord>({
     columns,
     data,
+    state: {
+      sorting,
+      grouping,
+    },
+    onSortingChange: setSorting,
+    onGroupingChange: setGrouping,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getGroupedRowModel: getGroupedRowModel(),
   });
 
+  const toggleGrouping = () => {
+    setGrouping((prevGrouping) => (prevGrouping.length ? [] : ["equipment"]));
+  };
+
   return (
-    <div className="p-2">
-      <table className="border-2 border-gray-300 border-solid">
-        <thead className="border-2 border-gray-300 border-solid p-4">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="border-1 border-gray-300 border-solid font-bold"
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody className="border-2 border-solid border-gray-300">
-          {table.getCoreRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td
-                  key={cell.id}
-                  className="border-1 border-gray-300 border-solid p-4"
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          {table.getFooterGroups().map((footerGroup) => (
-            <tr key={footerGroup.id}>
-              {footerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="border-2 border-gray-300 border-solid text-gray-500"
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.footer,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </tfoot>
-      </table>
-      <div className="h-4" />
-      <button onClick={() => rerender()} className="border p-2">
-        Rerender
-      </button>
+    <div className="flex flex-col items-center p-4">
+      <div className="flex justify-start mb-4">
+        <button
+          onClick={toggleGrouping}
+          className="border p-2 rounded-lg bg-red-600 text-white font-bold shadow-lg mr-2"
+        >
+          Group by Equipment
+        </button>
+        <button
+          onClick={() => rerender()}
+          className="border p-2 rounded-lg bg-black text-white font-bold shadow-lg"
+        >
+          Rerender
+        </button>
+      </div>
+      <div className="w-full flex justify-center">
+        <table className="border-2 border-gray-300 border-solid">
+          <thead className="border-2 border-gray-300 border-solid p-4">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className="border-1 border-gray-300 border-solid font-bold cursor-pointer text-center"
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {header.isPlaceholder ? null : (
+                      <div className="flex items-center justify-center">
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {{
+                          asc: " 🔼",
+                          desc: " 🔽",
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </div>
+                    )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody className="border-2 border-solid border-gray-300">
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    key={cell.id}
+                    className="border-1 border-gray-300 border-solid p-4"
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            {table.getFooterGroups().map((footerGroup) => (
+              <tr key={footerGroup.id}>
+                {footerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className="border-2 border-gray-300 border-solid text-gray-500 text-center"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.footer,
+                          header.getContext()
+                        )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </tfoot>
+        </table>
+      </div>
     </div>
   );
 };
