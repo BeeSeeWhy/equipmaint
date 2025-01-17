@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { fetchEquipmentData } from "../utils/fetchEquipmentData";
+import { fetchEquipmentName } from "../utils/fetchEquipmentName";
 
 const TypeEnum = ["Preventative", "Repair", "Emergency"] as const;
 const PriorityEnum = ["Low", "Medium", "High"] as const;
@@ -19,7 +19,7 @@ const MaintenanceSchema = z.object({
     })
     .optional(),
   technician: z.string().min(2, " Tech must be at least 2 characters long"),
-  hours: z.coerce
+  hoursSpent: z.coerce
     .number()
     .positive()
     .min(1, " Hours must be at least 1")
@@ -31,7 +31,7 @@ const MaintenanceSchema = z.object({
   priority: z.enum(PriorityEnum, {
     errorMap: () => ({ message: " Please select a priority" }),
   }),
-  completion: z.enum(CompletionEnum, {
+  completionStatus: z.enum(CompletionEnum, {
     errorMap: () => ({ message: " Please select a completion status" }),
   }),
 });
@@ -44,7 +44,7 @@ const MaintenanceForm: React.FC = () => {
   useEffect(() => {
     const loadEquipmentData = async () => {
       try {
-        const data = await fetchEquipmentData();
+        const data = await fetchEquipmentName();
         setEquipmentOptions(data);
       } catch (error) {
         console.error("Failed to load equipment data", error);

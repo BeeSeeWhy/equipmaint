@@ -4,60 +4,43 @@
     "date": "2025-01-13T00:00:00.000Z",
     "type": "Repair",
     "technician": "Rob Bot",
-    "hours": 3,
+    "hoursSpent": 3,
     "description": "replace cracked oil pan",
-    "partsReplaced": [
-      {
-        "part": "oil pan"
-      }
-    ],
+    "partsReplaced": ["oil pan"],
     "priority": "High",
-    "completion": "Complete"
+    "completionStatus": "Complete"
   },
   {
     "equipment": "Excavator",
     "date": "2025-01-01T00:00:00.000Z",
     "type": "Preventative",
     "technician": "Arnold",
-    "hours": 2,
+    "hoursSpent": 2,
     "description": "oil change",
-    "partsReplaced": [
-      {
-        "part": ""
-      }
-    ],
+    "partsReplaced": [""],
     "priority": "Low",
-    "completion": "Complete"
+    "completionStatus": "Complete"
   },
   {
     "equipment": "Backhoe",
     "date": "2025-01-04T00:00:00.000Z",
     "type": "Emergency",
     "technician": "Rob Bot",
-    "hours": 5,
+    "hoursSpent": 5,
     "description": "smoke from engine",
-    "partsReplaced": [
-      {
-        "part": "engine"
-      },
-      {
-        "part": "oil pan"
-      }
-    ],
+    "partsReplaced": ["engine", "oil pan"],
     "priority": "High",
-    "completion": "Complete"
+    "completionStatus": "Complete"
   },
   {
     "equipment": "Excavator",
     "date": "2025-01-08T00:00:00.000Z",
     "type": "Preventative",
     "technician": "Rob Bot",
-    "hours": 2,
+    "hoursSpent": 2,
     "description": "oil change",
-    "partsReplaced": [
-      "oil"
-    ],
+    "partsReplaced": ["oil"],
     "priority": "Low",
-    "completion": "Complete"
+    "completionStatus": "Complete"
   }
 ]

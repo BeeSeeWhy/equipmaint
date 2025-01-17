@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
                   Equipment Table
                 </Link>
                 <Link
-                  href="/mainttable"
+                  href="/maintenance-table"
                   className="rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                 >
                   Maintenance Records Table

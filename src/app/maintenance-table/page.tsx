@@ -6,65 +6,84 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-  getSortedRowModel,
-  SortingState,
 } from "@tanstack/react-table";
-import { Equipment } from "@/types/equipment";
+//import { MaintenanceRecord } from "@/types/equipment";
 import { fetchData } from "../utils/fetchData";
 
-const columnHelper = createColumnHelper<Equipment>();
+const columnHelper = createColumnHelper<MaintenanceRecord>();
+
+interface MaintenanceRecord {
+  equipment: string;
+  date: Date;
+  type: string;
+  technician: string;
+  hoursSpent: number;
+  description: string;
+  partsReplaced: string[];
+  priority: string;
+  completionStatus: string;
+}
 
 const columns = [
-  columnHelper.accessor("name", {
-    header: () => "Name",
+  columnHelper.accessor("equipment", {
+    header: () => "Equipment",
     cell: (info) => info.getValue(),
-    footer: () => "Name",
+    footer: () => "Equipment",
   }),
-  columnHelper.accessor("location", {
-    header: () => "Location",
+  columnHelper.accessor("date", {
+    header: () => "Date",
     cell: (info) => info.getValue(),
-    footer: () => "Location",
+    footer: () => "Date",
   }),
-  columnHelper.accessor("department", {
-    header: () => "Department",
+  columnHelper.accessor("type", {
+    header: () => "Type",
     cell: (info) => info.getValue(),
-    footer: () => "Department",
+    footer: () => "Type",
   }),
-  columnHelper.accessor("model", {
-    header: () => "Model",
+  columnHelper.accessor("technician", {
+    header: () => "Technician",
     cell: (info) => info.getValue(),
-    footer: () => "Model",
+    footer: () => "Technician",
   }),
-  columnHelper.accessor("serialNumber", {
-    header: () => "Serial Number",
+  columnHelper.accessor("hoursSpent", {
+    header: () => "Hours Spent",
     cell: (info) => info.getValue(),
-    footer: () => "Serial Number",
+    footer: () => "Hours Spent",
   }),
-  columnHelper.accessor("installDate", {
-    header: () => "Install Date",
-    cell: (info) => new Date(info.getValue()).toLocaleDateString(),
-    footer: () => "Install Date",
-  }),
-  columnHelper.accessor("status", {
-    header: () => "Status",
+  columnHelper.accessor("description", {
+    header: () => "Description",
     cell: (info) => info.getValue(),
-    footer: () => "Status",
+    footer: () => "Description",
+  }),
+  columnHelper.accessor("partsReplaced", {
+    header: () => "Parts Replaced",
+    cell: (info) => info.getValue(),
+    footer: () => "Parts Replaced",
+  }),
+  columnHelper.accessor("priority", {
+    header: () => "Priority",
+    cell: (info) => info.getValue(),
+    footer: () => "Priority",
+  }),
+  columnHelper.accessor("completionStatus", {
+    header: () => "Completion Status",
+    cell: (info) => info.getValue(),
+    footer: () => "Completion Status",
   }),
 ];
 
-const EquipTable: React.FC = () => {
-  const [equipmentOptions, setEquipmentOptions] = React.useState<Equipment[]>(
-    []
-  );
-  const [data, setData] = React.useState<Equipment[]>([]);
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+const MaintTable: React.FC = () => {
+  const [maintenanceOptions, setMaintenanceOptions] = React.useState<
+    MaintenanceRecord[]
+  >([]);
+  const [data, setData] = React.useState(() => [...maintenanceOptions]);
   const rerender = React.useReducer(() => ({}), {})[1];
 
   useEffect(() => {
     const loadEquipmentData = async () => {
       try {
-        const data = await fetchData("equipment");
-        setEquipmentOptions(data);
+        const data = await fetchData("maintenance");
+        setMaintenanceOptions(data);
       } catch (error) {
         console.error("Failed to load equipment data", error);
       }
@@ -74,18 +93,16 @@ const EquipTable: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setData(equipmentOptions);
-  }, [equipmentOptions]);
+    setData(maintenanceOptions);
+  }, [maintenanceOptions]);
 
-  const table = useReactTable<Equipment>({
+  console.log("Maintenance Options", maintenanceOptions);
+  console.log("Data", data);
+
+  const table = useReactTable<MaintenanceRecord>({
     columns,
     data,
-    state: {
-      sorting,
-    },
-    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
   });
 
   return (
@@ -97,21 +114,14 @@ const EquipTable: React.FC = () => {
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="border-1 border-gray-300 border-solid font-bold cursor-pointer text-center"
-                  onClick={header.column.getToggleSortingHandler()}
+                  className="border-1 border-gray-300 border-solid font-bold"
                 >
-                  {header.isPlaceholder ? null : (
-                    <div className="flex items-center justify-center">
-                      {flexRender(
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
-                      {{
-                        asc: " 🔼",
-                        desc: " 🔽",
-                      }[header.column.getIsSorted() as string] ?? null}
-                    </div>
-                  )}
                 </th>
               ))}
             </tr>
@@ -119,20 +129,7 @@ const EquipTable: React.FC = () => {
         </thead>
         <tbody className="border-2 border-solid border-gray-300">
           {table.getCoreRowModel().rows.map((row) => (
-            <tr
-              key={row.id}
-              className={
-                row.original.status === "Operational"
-                  ? "bg-green-100"
-                  : row.original.status === "Retired"
-                  ? "bg-gray-100"
-                  : row.original.status === "Maintenance"
-                  ? "bg-yellow-100"
-                  : row.original.status === "Down"
-                  ? "bg-red-100"
-                  : ""
-              }
-            >
+            <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <td
                   key={cell.id}
@@ -150,7 +147,7 @@ const EquipTable: React.FC = () => {
               {footerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="border-2 border-gray-300 border-solid text-gray-500 text-center"
+                  className="border-2 border-gray-300 border-solid text-gray-500"
                 >
                   {header.isPlaceholder
                     ? null
@@ -172,4 +169,4 @@ const EquipTable: React.FC = () => {
   );
 };
 
-export default EquipTable;
+export default MaintTable;
