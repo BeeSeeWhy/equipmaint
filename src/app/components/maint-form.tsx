@@ -1,28 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { fetchEquipmentData } from "../utils/fetchEquipmentData";
 
-const EquipEnum = [
-  "Backhoe",
-  "Excavator",
-  "Forklift",
-  "Skid Steer",
-  "Tractor",
-  "Truck",
-  "Utility Vehicle",
-  "Other",
-] as const;
 const TypeEnum = ["Preventative", "Repair", "Emergency"] as const;
 const PriorityEnum = ["Low", "Medium", "High"] as const;
 const CompletionEnum = ["Complete", "Incomplete", "Pending Parts"] as const;
 
 const MaintenanceSchema = z.object({
-  equipment: z.enum(EquipEnum, {
-    errorMap: () => ({ message: " Please select equipment" }),
-  }),
+  equipment: z.string().nonempty(" Please select equipment"),
   date: z.coerce.date().max(new Date(), " Date must be today or earlier"),
   type: z
     .enum(TypeEnum, {
@@ -50,6 +39,22 @@ const MaintenanceSchema = z.object({
 type MaintenanceData = z.infer<typeof MaintenanceSchema>;
 
 const MaintenanceForm: React.FC = () => {
+  const [equipmentOptions, setEquipmentOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    const loadEquipmentData = async () => {
+      try {
+        const data = await fetchEquipmentData();
+        setEquipmentOptions(data);
+      } catch (error) {
+        console.error("Failed to load equipment data", error);
+      }
+    };
+
+    loadEquipmentData();
+  }, []);
+
+  console.log("Equipment Options", equipmentOptions);
   const {
     register,
     handleSubmit,
@@ -92,7 +97,6 @@ const MaintenanceForm: React.FC = () => {
     <div className="max-w-sm rounded overflow-hidden shadow-lg w-1/3">
       <form
         className="bg-slate-300 p-4 rounded-lg"
-        action="/api/form"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col space-y-4">
@@ -106,11 +110,8 @@ const MaintenanceForm: React.FC = () => {
             )}
           </div>
           <select id="equipment" {...register("equipment")}>
-            <option value="⬇️ Select a Equipment ⬇️">
-              {" "}
-              -- Select a Equipment --
-            </option>
-            {EquipEnum.map((equipment) => (
+            <option value=""> -- Select Equipment -- </option>
+            {equipmentOptions.map((equipment) => (
               <option key={equipment} value={equipment}>
                 {equipment}
               </option>
@@ -131,10 +132,7 @@ const MaintenanceForm: React.FC = () => {
           {/* Type */}
           <label htmlFor="type">Type of Repair</label>
           <select id="type" {...register("type")}>
-            <option value="⬇️ Select Type ⬇️">
-              {" "}
-              -- Select Type of Repair --
-            </option>
+            <option value=""> -- Select Type of Repair -- </option>
             {TypeEnum.map((repairType) => (
               <option key={repairType} value={repairType}>
                 {repairType}
@@ -217,13 +215,11 @@ const MaintenanceForm: React.FC = () => {
               {errors.partsReplaced.message}
             </span>
           )}
+
           {/* Priority */}
           <label htmlFor="priority">Priority</label>
           <select id="priority" {...register("priority")} required>
-            <option value="⬇️ Select Priority ⬇️">
-              {" "}
-              -- Select Priority --
-            </option>
+            <option value=""> -- Select Priority -- </option>
             {PriorityEnum.map((priority) => (
               <option key={priority} value={priority}>
                 {priority}
@@ -241,7 +237,7 @@ const MaintenanceForm: React.FC = () => {
             )}
           </div>
           <select id="completion" {...register("completion")}>
-            <option value="⬇️ Select Status ⬇️"> -- Select Status --</option>
+            <option value=""> -- Select Status -- </option>
             {CompletionEnum.map((status) => (
               <option key={status} value={status}>
                 {status}
