@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom/client";
 import {
   ColumnDef,
   createColumnHelper,
@@ -14,7 +13,7 @@ import { fetchEquipmentData } from "../utils/fetchEquipmentData";
 
 const columnHelper = createColumnHelper<Equipment>();
 
-const columns: ColumnDef<Equipment, any>[] = [
+const columns = [
   columnHelper.accessor("name", {
     cell: (info) => info.getValue(),
     footer: (info) => info.column.id,
@@ -45,7 +44,7 @@ const columns: ColumnDef<Equipment, any>[] = [
   }),
 ];
 
-const EquipTable = () => {
+const EquipTable: React.FC = () => {
   const [equipmentOptions, setEquipmentOptions] = React.useState<Equipment[]>(
     []
   );
