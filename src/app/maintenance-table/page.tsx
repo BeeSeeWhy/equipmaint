@@ -10,6 +10,8 @@ import {
   getGroupedRowModel,
   SortingState,
   GroupingState,
+  ColumnFiltersState,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 //import { MaintenanceRecord } from "@/types/maintenance";
 import { fetchData } from "../utils/fetchData";
@@ -83,6 +85,7 @@ const MaintTable: React.FC = () => {
   const [data, setData] = useState<MaintenanceRecord[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [grouping, setGrouping] = useState<GroupingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const rerender = React.useReducer(() => ({}), {})[1];
   const isMounted = useRef(false);
 
@@ -119,12 +122,15 @@ const MaintTable: React.FC = () => {
     state: {
       sorting,
       grouping,
+      columnFilters,
     },
     onSortingChange: setSorting,
     onGroupingChange: setGrouping,
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getGroupedRowModel: getGroupedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
   });
 
   const toggleGrouping = () => {
@@ -146,6 +152,23 @@ const MaintTable: React.FC = () => {
         >
           Rerender
         </button>
+      </div>
+      <div className="w-full flex justify-center mb-4">
+        {table.getHeaderGroups().map((headerGroup) => (
+          <div key={headerGroup.id} className="flex space-x-2">
+            {headerGroup.headers.map((header) => (
+              <div key={header.id} className="flex flex-col items-center">
+                <input
+                  type="text"
+                  placeholder={`Filter ${header.column.columnDef.header}`}
+                  value={(header.column.getFilterValue() ?? "") as string}
+                  onChange={(e) => header.column.setFilterValue(e.target.value)}
+                  className="border p-2 rounded-lg"
+                />
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
       <div className="w-full flex justify-center">
         <table className="border-2 border-gray-300 border-solid">
