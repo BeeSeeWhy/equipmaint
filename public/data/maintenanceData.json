@@ -1,63 +1,15 @@
 [
   {
-    "equipment": "Backhoe",
-    "date": "2025-01-13T00:00:00.000Z",
+    "equipment": "Packager",
+    "date": "2025-01-15T00:00:00.000Z",
     "type": "Repair",
     "technician": "Rob Bot",
-    "hours": 3,
-    "description": "replace cracked oil pan",
+    "hoursSpent": 5,
+    "description": "refill paper and fix cracked seal",
     "partsReplaced": [
-      {
-        "part": "oil pan"
-      }
+      "sealing gasket"
     ],
-    "priority": "High",
-    "completion": "Complete"
-  },
-  {
-    "equipment": "Excavator",
-    "date": "2025-01-01T00:00:00.000Z",
-    "type": "Preventative",
-    "technician": "Arnold",
-    "hours": 2,
-    "description": "oil change",
-    "partsReplaced": [
-      {
-        "part": ""
-      }
-    ],
-    "priority": "Low",
-    "completion": "Complete"
-  },
-  {
-    "equipment": "Backhoe",
-    "date": "2025-01-04T00:00:00.000Z",
-    "type": "Emergency",
-    "technician": "Rob Bot",
-    "hours": 5,
-    "description": "smoke from engine",
-    "partsReplaced": [
-      {
-        "part": "engine"
-      },
-      {
-        "part": "oil pan"
-      }
-    ],
-    "priority": "High",
-    "completion": "Complete"
-  },
-  {
-    "equipment": "Excavator",
-    "date": "2025-01-08T00:00:00.000Z",
-    "type": "Preventative",
-    "technician": "Rob Bot",
-    "hours": 2,
-    "description": "oil change",
-    "partsReplaced": [
-      "oil"
-    ],
-    "priority": "Low",
-    "completion": "Complete"
+    "priority": "Medium",
+    "completionStatus": "Pending Parts"
   }
 ]

@@ -19,7 +19,12 @@ export async function POST(req: NextRequest) {
     console.log("we are here: ", data);
 
     // Define the path to the JSON file based on form type
-    const filePath = path.join(process.cwd(), "data", `${formType}Data.json`);
+    const filePath = path.join(
+      process.cwd(),
+      "public",
+      "data",
+      `${formType}Data.json`
+    );
     console.log("file path", filePath);
 
     // Ensure the data directory exists
