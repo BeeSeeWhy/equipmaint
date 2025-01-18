@@ -90,3 +90,9 @@ Also, project is deployed at [https://equipmaint.vercel.app](https://equipmaint.
 
 - [https://nextjs.org/docs/app](https://nextjs.org/docs/app)
 - I wanted to implement a project with the newer approach so I can gain experience and also better comprehend the structure
+
+## Known Issues
+
+- Maintenance Records Table does not pull the equipment name from the Equipment Data
+- Playwright tests not comppleted
+- Extra credit not completed
