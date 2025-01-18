@@ -90,6 +90,13 @@ Also, project is deployed at [https://equipmaint.vercel.app](https://equipmaint.
 - [https://nextjs.org/docs/app](https://nextjs.org/docs/app)
 - I wanted to implement a project with the newer approach so I can gain experience and also better comprehend the structure
 
+### Vercel  
+
+- [https://vercel.com](https://vercel.com)
+- I have experience with Vercel and it's ease of use is great.
+- Vercel has a great integration with GitHub
+- It's easy to see if all the checks have passed or failed
+- There's an easy to view preview link of the build. 
 
 ## Known Issues
 
