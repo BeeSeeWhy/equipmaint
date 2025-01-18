@@ -83,11 +83,13 @@ Also, project is deployed at [https://equipmaint.vercel.app](https://equipmaint.
 - After reading through the documentation, it appeard to be the perfect solution for the forms required
 - The library integrates well with Zod for validation
 - The implementation was fairly straight-forward and simple
+- useFieldArray seemed to be a perfect option for the maintenance form to gather the parts replaced (but had to be manipulated as it doesn't output flat arrays)
 
 ### App Router
 
 - [https://nextjs.org/docs/app](https://nextjs.org/docs/app)
 - I wanted to implement a project with the newer approach so I can gain experience and also better comprehend the structure
+
 
 ## Known Issues
 
