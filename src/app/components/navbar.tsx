@@ -95,29 +95,35 @@ const Navbar: React.FC = () => {
         <div className="sm:hidden" id="mobile-menu">
           <div className="space-y-1 px-2 pb-3 pt-2">
             <a
-              href="/equipment"
+              href="/equipment-form"
               className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
               aria-current="page"
             >
               Equipment Form
             </a>
             <a
-              href="/maintenance"
+              href="/maintenance-form"
               className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
             >
               Maintenance Record Form
             </a>
             <a
-              href="/equiptable"
+              href="/equipment-table"
               className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
             >
               Equipment Table
             </a>
             <a
-              href="/mainttable"
+              href="/maintenance-table"
               className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
             >
               Maintenance Records Table
+            </a>
+            <a
+              href="/dashboard"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+            >
+              Dashboard
             </a>
           </div>
         </div>
