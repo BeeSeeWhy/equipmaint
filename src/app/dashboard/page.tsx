@@ -16,14 +16,17 @@ import {
 import { fetchData } from "../utils/fetchData";
 
 interface Equipment {
+  name: string;
   status: string;
+  department: string;
 }
 
 interface MaintenanceRecord {
-  department: string;
+  equipment: string;
+  date: Date;
   hoursSpent: number;
   description: string;
-  date: string;
+  department: string;
 }
 
 const Dashboard: React.FC = () => {
@@ -53,7 +56,11 @@ const Dashboard: React.FC = () => {
   }, {} as Record<string, number>);
 
   const maintenanceHoursByDepartment = maintenanceData.reduce((acc, record) => {
-    acc[record.department] = (acc[record.department] || 0) + record.hoursSpent;
+    const equipment = equipmentData.find((e) => e.name === record.equipment);
+    if (equipment) {
+      acc[equipment.department] =
+        (acc[equipment.department] || 0) + record.hoursSpent;
+    }
     return acc;
   }, {} as Record<string, number>);
 
@@ -125,8 +132,9 @@ const Dashboard: React.FC = () => {
         <ul>
           {maintenanceData.slice(0, 5).map((record, index) => (
             <li key={index} className="mb-2">
-              <strong>{record.date}:</strong> {record.description} (Department:{" "}
-              {record.department}, Hours: {record.hoursSpent})
+              <strong>{new Date(record.date).toLocaleDateString()}:</strong>{" "}
+              {record.description} (Department: {record.department}, Hours
+              Spent: {record.hoursSpent})
             </li>
           ))}
         </ul>
