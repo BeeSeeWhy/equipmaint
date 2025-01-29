@@ -39,7 +39,15 @@ const Dashboard: React.FC = () => {
     const loadData = async () => {
       try {
         const equipment = await fetchData("equipment");
-        const maintenance = await fetchData("maintenance");
+        const maintenance = await fetchData("maintenance").then((data) =>
+          data.map((record: MaintenanceRecord) => ({
+            ...record,
+            department:
+              equipment.find(
+                (e: { name: string }) => e.name === record.equipment
+              )?.department || "Unknown",
+          }))
+        );
         setEquipmentData(equipment);
         setMaintenanceData(maintenance);
       } catch (error) {

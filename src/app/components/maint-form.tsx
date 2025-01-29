@@ -5,12 +5,14 @@ import { z } from "zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { fetchEquipmentName } from "../utils/fetchEquipmentName";
+import { v4 as uuidv4 } from "uuid";
 
 const TypeEnum = ["Preventative", "Repair", "Emergency"] as const;
 const PriorityEnum = ["Low", "Medium", "High"] as const;
 const CompletionEnum = ["Complete", "Incomplete", "Pending Parts"] as const;
 
 const MaintenanceSchema = z.object({
+  id: z.string().uuid().optional(),
   equipment: z.string().nonempty(" Please select equipment"),
   date: z.coerce.date().max(new Date(), " Date must be today or earlier"),
   type: z
@@ -71,6 +73,9 @@ const MaintenanceForm: React.FC = () => {
   });
 
   const onSubmit = async (data: MaintenanceData) => {
+    // Generate a unique ID for the record
+    data.id = uuidv4();
+    console.log("Data", data);
     // Convert partsReplaced to an array of strings
     const partsReplaced = data.partsReplaced?.map((item) => item.part) || [];
     const submissionData = { ...data, partsReplaced };
