@@ -60,5 +60,17 @@
     "completionStatus": "Complete",
     "id": "b0505370-893c-41a1-8cfd-05da905fa127",
     "partsReplaced": []
+  },
+  {
+    "equipment": "Sealer",
+    "date": "2025-01-27T00:00:00.000Z",
+    "type": "Preventative",
+    "technician": "Rob Bot",
+    "hoursSpent": 1,
+    "description": "added tape",
+    "partsReplaced": [],
+    "priority": "Low",
+    "completionStatus": "Complete",
+    "id": "7d2a0628-09cd-4612-9d44-f91e6318f9cc"
   }
 ]

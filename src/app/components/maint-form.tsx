@@ -6,37 +6,12 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { fetchEquipmentName } from "../utils/fetchEquipmentName";
 import { v4 as uuidv4 } from "uuid";
-
-const TypeEnum = ["Preventative", "Repair", "Emergency"] as const;
-const PriorityEnum = ["Low", "Medium", "High"] as const;
-const CompletionEnum = ["Complete", "Incomplete", "Pending Parts"] as const;
-
-const MaintenanceSchema = z.object({
-  id: z.string().uuid().optional(),
-  equipment: z.string().nonempty(" Please select equipment"),
-  date: z.coerce.date().max(new Date(), " Date must be today or earlier"),
-  type: z
-    .enum(TypeEnum, {
-      errorMap: () => ({ message: " Please select a maintenance type" }),
-    })
-    .optional(),
-  technician: z.string().min(2, " Tech must be at least 2 characters long"),
-  hoursSpent: z.coerce
-    .number()
-    .positive()
-    .min(1, " Hours must be at least 1")
-    .max(24, " Hours must be 24 or less"),
-  description: z
-    .string()
-    .min(10, " Description must be at least 10 characters long"),
-  partsReplaced: z.array(z.object({ part: z.string() })).optional(),
-  priority: z.enum(PriorityEnum, {
-    errorMap: () => ({ message: " Please select a priority" }),
-  }),
-  completionStatus: z.enum(CompletionEnum, {
-    errorMap: () => ({ message: " Please select a completion status" }),
-  }),
-});
+import {
+  CompletionEnum,
+  MaintenanceSchema,
+  PriorityEnum,
+  TypeEnum,
+} from "../schemas/schemas";
 
 type MaintenanceData = z.infer<typeof MaintenanceSchema>;
 

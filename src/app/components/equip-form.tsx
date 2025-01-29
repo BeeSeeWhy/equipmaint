@@ -4,7 +4,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
+import { DeptEnum, EquipmentSchema, StatusEnum } from "../schemas/schemas";
 
+/* 
 const DeptEnum = ["Machining", "Assembly", "Packaging", "Shipping"] as const;
 const StatusEnum = ["Operational", "Down", "Maintenance", "Retired"] as const;
 
@@ -26,7 +28,8 @@ const EquipmentSchema = z.object({
   status: z.enum(StatusEnum, {
     errorMap: () => ({ message: " Please select a status" }),
   }),
-});
+}); 
+*/
 
 type EquipmentData = z.infer<typeof EquipmentSchema>;
 

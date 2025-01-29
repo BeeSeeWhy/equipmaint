@@ -34,5 +34,15 @@
     "serialNumber": "23857A",
     "installDate": "2025-01-08T00:00:00.000Z",
     "status": "Retired"
+  },
+  {
+    "name": "Sealer",
+    "location": "Oakland",
+    "department": "Packaging",
+    "model": "Sealer500",
+    "serialNumber": "500343S",
+    "installDate": "2025-01-25T00:00:00.000Z",
+    "status": "Operational",
+    "id": "f09f733f-1397-4431-a507-c1c459f7c359"
   }
 ]
