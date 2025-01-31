@@ -6,31 +6,6 @@ import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { DeptEnum, EquipmentSchema, StatusEnum } from "../schemas/schemas";
 
-/* 
-const DeptEnum = ["Machining", "Assembly", "Packaging", "Shipping"] as const;
-const StatusEnum = ["Operational", "Down", "Maintenance", "Retired"] as const;
-
-const EquipmentSchema = z.object({
-  id: z.string().uuid().optional(),
-  name: z.string().min(3, " Name must be at least 3 characters long"),
-  location: z.string(),
-  department: z.enum(DeptEnum, {
-    errorMap: () => ({ message: " Please select a department" }),
-  }),
-  model: z.string(),
-  serialNumber: z.custom<string>((val) => {
-    return typeof val === "string" ? /^[a-z0-9]+$/i.test(val) : false;
-  }, " Serial must be alphanumeric"),
-  installDate: z
-    .string()
-    .transform((val) => new Date(val))
-    .refine((date) => date < new Date(), " Date must be yesterday or earlier"),
-  status: z.enum(StatusEnum, {
-    errorMap: () => ({ message: " Please select a status" }),
-  }),
-}); 
-*/
-
 type EquipmentData = z.infer<typeof EquipmentSchema>;
 
 const EquipForm: React.FC = () => {
