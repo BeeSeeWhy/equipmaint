@@ -72,5 +72,19 @@
     "priority": "Low",
     "completionStatus": "Complete",
     "id": "7d2a0628-09cd-4612-9d44-f91e6318f9cc"
+  },
+  {
+    "equipment": "Postage Marker",
+    "date": "2025-01-29T00:00:00.000Z",
+    "type": "Repair",
+    "technician": "Rob Bot",
+    "hoursSpent": 2,
+    "description": "replace stamp plate",
+    "partsReplaced": [
+      "stamp plate"
+    ],
+    "priority": "High",
+    "completionStatus": "Complete",
+    "id": "131bc1b9-4987-4620-936f-a3c11ddea9b0"
   }
 ]

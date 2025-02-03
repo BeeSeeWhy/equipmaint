@@ -15,8 +15,15 @@ import {
 
 type MaintenanceData = z.infer<typeof MaintenanceSchema>;
 
+interface EquipmentOption {
+  equipmentId: string;
+  name: string;
+}
+
 const MaintenanceForm: React.FC = () => {
-  const [equipmentOptions, setEquipmentOptions] = useState<string[]>([]);
+  const [equipmentOptions, setEquipmentOptions] = useState<EquipmentOption[]>(
+    []
+  );
 
   useEffect(() => {
     const loadEquipmentData = async () => {
@@ -92,8 +99,8 @@ const MaintenanceForm: React.FC = () => {
           <select id="equipment" {...register("equipment")}>
             <option value=""> -- Select Equipment -- </option>
             {equipmentOptions.map((equipment) => (
-              <option key={equipment} value={equipment}>
-                {equipment}
+              <option key={equipment.equipmentId} value={equipment.equipmentId}>
+                {equipment.name}
               </option>
             ))}
           </select>

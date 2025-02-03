@@ -44,5 +44,15 @@
     "installDate": "2025-01-25T00:00:00.000Z",
     "status": "Operational",
     "id": "f09f733f-1397-4431-a507-c1c459f7c359"
+  },
+  {
+    "name": "Labeler ",
+    "location": "San Francisco",
+    "department": "Shipping",
+    "model": "Label 2000",
+    "serialNumber": "AD384F",
+    "installDate": "2025-01-30T00:00:00.000Z",
+    "status": "Operational",
+    "id": "4927487c-102f-4911-bddd-5a0121f014b8"
   }
 ]
