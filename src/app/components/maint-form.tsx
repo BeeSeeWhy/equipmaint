@@ -5,41 +5,25 @@ import { z } from "zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { fetchEquipmentName } from "../utils/fetchEquipmentName";
-
-const TypeEnum = ["Preventative", "Repair", "Emergency"] as const;
-const PriorityEnum = ["Low", "Medium", "High"] as const;
-const CompletionEnum = ["Complete", "Incomplete", "Pending Parts"] as const;
-
-const MaintenanceSchema = z.object({
-  equipment: z.string().nonempty(" Please select equipment"),
-  date: z.coerce.date().max(new Date(), " Date must be today or earlier"),
-  type: z
-    .enum(TypeEnum, {
-      errorMap: () => ({ message: " Please select a maintenance type" }),
-    })
-    .optional(),
-  technician: z.string().min(2, " Tech must be at least 2 characters long"),
-  hoursSpent: z.coerce
-    .number()
-    .positive()
-    .min(1, " Hours must be at least 1")
-    .max(24, " Hours must be 24 or less"),
-  description: z
-    .string()
-    .min(10, " Description must be at least 10 characters long"),
-  partsReplaced: z.array(z.object({ part: z.string() })).optional(),
-  priority: z.enum(PriorityEnum, {
-    errorMap: () => ({ message: " Please select a priority" }),
-  }),
-  completionStatus: z.enum(CompletionEnum, {
-    errorMap: () => ({ message: " Please select a completion status" }),
-  }),
-});
+import { v4 as uuidv4 } from "uuid";
+import {
+  CompletionEnum,
+  MaintenanceSchema,
+  PriorityEnum,
+  TypeEnum,
+} from "../schemas/schemas";
 
 type MaintenanceData = z.infer<typeof MaintenanceSchema>;
 
+interface EquipmentOption {
+  equipmentId: string;
+  name: string;
+}
+
 const MaintenanceForm: React.FC = () => {
-  const [equipmentOptions, setEquipmentOptions] = useState<string[]>([]);
+  const [equipmentOptions, setEquipmentOptions] = useState<EquipmentOption[]>(
+    []
+  );
 
   useEffect(() => {
     const loadEquipmentData = async () => {
@@ -71,6 +55,9 @@ const MaintenanceForm: React.FC = () => {
   });
 
   const onSubmit = async (data: MaintenanceData) => {
+    // Generate a unique ID for the record
+    data.id = uuidv4();
+    console.log("Data", data);
     // Convert partsReplaced to an array of strings
     const partsReplaced = data.partsReplaced?.map((item) => item.part) || [];
     const submissionData = { ...data, partsReplaced };
@@ -112,8 +99,8 @@ const MaintenanceForm: React.FC = () => {
           <select id="equipment" {...register("equipment")}>
             <option value=""> -- Select Equipment -- </option>
             {equipmentOptions.map((equipment) => (
-              <option key={equipment} value={equipment}>
-                {equipment}
+              <option key={equipment.equipmentId} value={equipment.equipmentId}>
+                {equipment.name}
               </option>
             ))}
           </select>

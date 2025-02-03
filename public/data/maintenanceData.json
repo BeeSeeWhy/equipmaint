@@ -11,5 +11,80 @@
     ],
     "priority": "Medium",
     "completionStatus": "Pending Parts"
+  },
+  {
+    "equipment": "Drill",
+    "date": "2025-01-14T00:00:00.000Z",
+    "type": "Emergency",
+    "technician": "DJ",
+    "hoursSpent": 10,
+    "description": "motor caught on fire",
+    "partsReplaced": [
+      "motor"
+    ],
+    "priority": "High",
+    "completionStatus": "Pending Parts"
+  },
+  {
+    "equipment": "Packager",
+    "date": "2025-01-15T00:00:00.000Z",
+    "type": "Preventative",
+    "technician": "Rob Bot",
+    "hoursSpent": 3,
+    "description": "lube parts",
+    "partsReplaced": [
+      ""
+    ],
+    "priority": "Low",
+    "completionStatus": "Complete"
+  },
+  {
+    "equipment": "Robot Arm Assembler",
+    "date": "2025-01-16T00:00:00.000Z",
+    "type": "Repair",
+    "technician": "Rob Bot",
+    "hoursSpent": 2,
+    "description": "oil joints",
+    "partsReplaced": [],
+    "priority": "Low",
+    "completionStatus": "Complete"
+  },
+  {
+    "equipment": "Postage Marker",
+    "date": "2025-01-24T00:00:00.000Z",
+    "type": "Preventative",
+    "technician": "Rob Bot",
+    "hoursSpent": 2,
+    "description": "add ink to stamp",
+    "priority": "Low",
+    "completionStatus": "Complete",
+    "id": "b0505370-893c-41a1-8cfd-05da905fa127",
+    "partsReplaced": []
+  },
+  {
+    "equipment": "Sealer",
+    "date": "2025-01-27T00:00:00.000Z",
+    "type": "Preventative",
+    "technician": "Rob Bot",
+    "hoursSpent": 1,
+    "description": "added tape",
+    "partsReplaced": [],
+    "priority": "Low",
+    "completionStatus": "Complete",
+    "id": "7d2a0628-09cd-4612-9d44-f91e6318f9cc"
+  },
+  {
+    "equipment": "Postage Marker",
+    "date": "2025-01-29T00:00:00.000Z",
+    "type": "Repair",
+    "technician": "Rob Bot",
+    "hoursSpent": 2,
+    "description": "replace stamp plate",
+    "partsReplaced": [
+      "stamp plate"
+    ],
+    "priority": "High",
+    "completionStatus": "Complete",
+    "id": "131bc1b9-4987-4620-936f-a3c11ddea9b0"
   }
 ]
