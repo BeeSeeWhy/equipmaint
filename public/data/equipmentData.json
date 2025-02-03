@@ -54,5 +54,25 @@
     "installDate": "2025-01-30T00:00:00.000Z",
     "status": "Operational",
     "id": "4927487c-102f-4911-bddd-5a0121f014b8"
+  },
+  {
+    "name": "GE Boxer ",
+    "location": "Salem",
+    "department": "Packaging",
+    "model": "Box 5500",
+    "serialNumber": "ghdjf8f",
+    "installDate": "2025-01-30T00:00:00.000Z",
+    "status": "Operational",
+    "id": "19db9ec1-2709-4e86-9875-6a94459b8e76"
+  },
+  {
+    "name": "Sears Conveyor Belt",
+    "location": "Fresno",
+    "department": "Assembly",
+    "model": "Conveyor 9000",
+    "serialNumber": "M0V31TM0V31T",
+    "installDate": "2025-02-01T00:00:00.000Z",
+    "status": "Operational",
+    "id": "a42643a9-3462-45b4-9430-eb544057f794"
   }
 ]

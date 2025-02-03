@@ -86,5 +86,19 @@
     "priority": "High",
     "completionStatus": "Complete",
     "id": "131bc1b9-4987-4620-936f-a3c11ddea9b0"
+  },
+  {
+    "equipment": "Drill",
+    "date": "2025-02-01T00:00:00.000Z",
+    "type": "Repair",
+    "technician": "Rob Bot",
+    "hoursSpent": 2,
+    "description": "replace bit",
+    "partsReplaced": [
+      "bit"
+    ],
+    "priority": "Medium",
+    "completionStatus": "Complete",
+    "id": "feff0d29-0b96-4723-89c8-b578cac3955c"
   }
 ]
